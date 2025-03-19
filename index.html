@@ -15,61 +15,28 @@
     <div id="map"></div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiY2FsbGFoYWkiLCJhIjoiY204Z2Y2b3dwMDFxejJrb2NncTRqNWo4eSJ9.SWOSp9Q1_IHaFeoOtafDhQ';
-        console.log("Mapbox access token set");
-
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'https://raw.githubusercontent.com/aidcallahan/lab4/main/style.json',
             center: [-96, 37.8],
             zoom: 4
         });
-
-        console.log("Map initialized, attempting to load style from GitHub");
-
         map.on('load', function() {
-            console.log("Map style loaded successfully");
-        });
-
-        map.on('error', function(e) {
-            console.error("Map failed to load style:", e);
-        });
-
-        fetch('https://raw.githubusercontent.com/aidcallahan/lab3/main/usdm_current.json')
-            .then(response => {
-                console.log("Fetching GeoJSON data...");
-                if (!response.ok) {
-                    console.error("Failed to fetch GeoJSON data. Status: " + response.status);
-                    return Promise.reject("GeoJSON fetch failed");
-                } else {
-                    console.log("GeoJSON data fetched successfully");
-                    return response.json();
-                }
-            })
-            .then(data => {
-                if (data) {
-                    console.log("GeoJSON data loaded successfully");
-
-                    function getColor(d) {
-                        if (d === 0) return '#31a354'; 
-                        if (d === 1) return '#78c679'; 
-                        if (d === 2) return '#addd8e';
-                        if (d === 3) return '#fdae61';
-                        if (d === 4) return '#f16913'; 
-                        return '#d7301f'; 
+            fetch('https://raw.githubusercontent.com/aidcallahan/lab3/main/usdm_current.json')
+                .then(response => {
+                    if (!response.ok) {
+                        console.error("Failed to fetch GeoJSON data. Status: " + response.status);
+                        return Promise.reject("GeoJSON fetch failed");
+                    } else {
+                        return response.json();
                     }
-
-                    map.on('load', function() {
-                        console.log("Attempting to add GeoJSON source to the map");
-
-                        if (map.getSource('drought-data')) {
-                            console.log("GeoJSON source already exists, skipping add");
-                        } else {
-                            map.addSource('drought-data', {
-                                type: 'geojson',
-                                data: data
-                            });
-                            console.log("GeoJSON source added successfully");
-                        }
+                })
+                .then(data => {
+                    if (data) {
+                        map.addSource('drought-data', {
+                            type: 'geojson',
+                            data: data
+                        });
 
                         map.addLayer({
                             id: 'drought-layer',
@@ -88,22 +55,16 @@
                                 ],
                                 'fill-opacity': 0.7
                             }
-                        }, 'water');
-
-                        console.log("Drought layer added successfully");
-
-                        map.on('mouseenter', 'drought-layer', function(e) {
+                        });
+                        map.on('mouseenter', 'drought-layer', function() {
                             map.getCanvas().style.cursor = 'pointer';
-                            console.log("Mouse entered drought layer");
                         });
 
                         map.on('mouseleave', 'drought-layer', function() {
                             map.getCanvas().style.cursor = '';
-                            console.log("Mouse left drought layer");
                         });
 
                         map.on('click', 'drought-layer', function(e) {
-                            console.log("Layer clicked, displaying popup");
                             var properties = e.features[0].properties;
                             var popupContent = `
                                 <strong>${properties.name || 'Unknown Area'}</strong><br>
@@ -115,17 +76,15 @@
                                 .setHTML(popupContent)
                                 .addTo(map);
                         });
-                    });
-                } else {
-                    console.error("No data available to load.");
-                }
-            })
-            .catch(error => {
-                console.error("Error loading GeoJSON data:", error);
-            });
-
+                    } else {
+                        console.error("No data available to load.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error loading GeoJSON data:", error);
+                });
+        });
         function getDroughtLevel(droughtIntensity) {
-            console.log("Evaluating drought intensity: " + droughtIntensity);
             switch (droughtIntensity) {
                 case 0: return "No Drought";
                 case 1: return "Abnormally Dry";
