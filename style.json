@@ -1,0 +1,203 @@
+{
+    "version": 8,
+    "name": "Untitled",
+    "metadata": {
+        "mapbox:autocomposite": true,
+        "mapbox:thumb": "data:image/webp;base64,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",
+        "mapbox:uiParadigm": "layers",
+        "mapbox:sdk-support": {
+            "js": "3.9.0",
+            "android": "11.11.0",
+            "ios": "11.11.0"
+        },
+        "mapbox:uiInteractiveImports": {
+            "basemap": {"place-labels": {"highlight": "Hover"}}
+        },
+        "mapbox:groups": {}
+    },
+    "center": [-34, 38],
+    "zoom": 2,
+    "lights": [],
+    "terrain": {
+        "source": "mapbox-dem",
+        "exaggeration": ["step", ["zoom"], 0, 6, 0, 7, 1, 12, 1, 13.7, 0]
+    },
+    "fog": {
+        "vertical-range": [30, 120],
+        "range": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            13,
+            ["literal", [1, 20]],
+            15,
+            ["literal", [1, 4]]
+        ],
+        "color": [
+            "interpolate",
+            ["exponential", 1.2],
+            ["zoom"],
+            5,
+            [
+                "interpolate",
+                ["linear"],
+                ["measure-light", "brightness"],
+                0.1,
+                "hsla(240, 9%, 55%, 0.2)",
+                0.4,
+                "hsla(0, 0%, 100%, 0.2)"
+            ],
+            7,
+            [
+                "interpolate",
+                ["linear"],
+                ["measure-light", "brightness"],
+                0.02,
+                "hsla(213, 63%, 20%, 0.9)",
+                0.03,
+                "hsla(30, 65%, 60%, 0.5)",
+                0.4,
+                "hsla(10, 79%, 88%, 0.8)",
+                0.45,
+                "hsla(200, 60%, 98%, 0.9)"
+            ]
+        ],
+        "high-color": [
+            "interpolate",
+            ["exponential", 1.2],
+            ["zoom"],
+            5,
+            [
+                "interpolate",
+                ["linear"],
+                ["measure-light", "brightness"],
+                0.1,
+                "hsla(215, 60%, 20%, 1)",
+                0.4,
+                "hsla(215, 100%, 80%, 1)"
+            ],
+            7,
+            [
+                "interpolate",
+                ["linear"],
+                ["measure-light", "brightness"],
+                0,
+                "hsla(228, 38%, 20%, 1)",
+                0.05,
+                "hsla(360, 100%, 85%, 1)",
+                0.2,
+                "hsla(205, 88%, 86%, 1)",
+                0.4,
+                "hsla(270, 65%, 85%, 1)",
+                0.45,
+                "hsla(0, 0%, 100%, 1)"
+            ]
+        ],
+        "space-color": [
+            "interpolate",
+            ["exponential", 1.2],
+            ["zoom"],
+            5,
+            "hsl(211, 84%, 0%)",
+            7,
+            [
+                "interpolate",
+                ["linear"],
+                ["measure-light", "brightness"],
+                0,
+                "hsl(210, 84%, 5%)",
+                0.2,
+                "hsl(210, 40%, 30%)",
+                0.4,
+                "hsl(210, 45%, 30%)",
+                0.45,
+                "hsl(210, 100%, 80%)"
+            ]
+        ],
+        "horizon-blend": [
+            "interpolate",
+            ["exponential", 1.2],
+            ["zoom"],
+            5,
+            0.004,
+            7,
+            [
+                "interpolate",
+                ["exponential", 1.2],
+                ["measure-light", "brightness"],
+                0.35,
+                0.03,
+                0.4,
+                0.07,
+                0.45,
+                0.03
+            ]
+        ],
+        "star-intensity": [
+            "interpolate",
+            ["exponential", 1.2],
+            ["zoom"],
+            5,
+            0.4,
+            7,
+            [
+                "interpolate",
+                ["exponential", 1.2],
+                ["measure-light", "brightness"],
+                0.1,
+                0.2,
+                0.3,
+                0
+            ]
+        ]
+    },
+    "imports": [
+        {
+            "id": "basemap",
+            "url": "mapbox://styles/mapbox/standard",
+            "config": {
+                "colorPlaceLabelHighlight": "hsl(5, 78%, 61%)",
+                "show3dObjects": false,
+                "showPlaceLabels": true,
+                "theme": "monochrome",
+                "colorPlaceLabelSelect": "hsl(5, 81%, 55%)",
+                "font": "Alegreya SC",
+                "showRoadsAndTransit": true,
+                "showPointOfInterestLabels": false,
+                "lightPreset": "dusk",
+                "showTransitLabels": false,
+                "showPedestrianRoads": true,
+                "showRoadLabels": false
+            }
+        }
+    ],
+    "sources": {
+        "mapbox-dem": {
+            "url": "mapbox://mapbox.mapbox-terrain-dem-v1",
+            "type": "raster-dem",
+            "tileSize": 512
+        }
+    },
+    "sprite": "mapbox://sprites/callahai/cm8giztdm011z01r0gpaq6n9h/b8fjw435hx85pp7j172f016pl",
+    "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+    "projection": {"name": "mercator"},
+    "layers": [
+        {
+            "id": "sky",
+            "type": "sky",
+            "layout": {},
+            "paint": {
+                "sky-opacity": 0.46,
+                "sky-atmosphere-halo-color": "hsl(0, 89%, 50%)",
+                "sky-atmosphere-color": "hsl(0, 95%, 55%)"
+            }
+        }
+    ],
+    "created": "2025-03-19T23:00:31.738Z",
+    "modified": "2025-03-19T23:18:54.945Z",
+    "id": "cm8giztdm011z01r0gpaq6n9h",
+    "owner": "callahai",
+    "visibility": "private",
+    "protected": false,
+    "draft": false
+}
