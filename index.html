@@ -15,14 +15,25 @@
             padding: 10px;
             font-family: Arial, sans-serif;
             font-size: 12px;
+            border-radius: 5px;
+            width: 200px;
         }
         .legend div {
             display: flex;
             align-items: center;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
         .legend div span {
             margin-left: 10px;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+        .mapboxgl-popup-content {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
         }
     </style>
     <script src="https://unpkg.com/mapbox-gl/dist/mapbox-gl.js"></script>
@@ -31,11 +42,11 @@
     <h1>US Current Drought Map</h1>
     <div id="map"></div>
     <div class="legend">
-        <div><span style="background-color: #31a354; width: 20px; height: 20px; display: inline-block;"></span><span>No Drought</span></div>
-        <div><span style="background-color: #66c2a4; width: 20px; height: 20px; display: inline-block;"></span><span>Abnormally Dry</span></div>
-        <div><span style="background-color: #99d8c9; width: 20px; height: 20px; display: inline-block;"></span><span>Moderate Drought</span></div>
-        <div><span style="background-color: #fc8d59; width: 20px; height: 20px; display: inline-block;"></span><span>Severe Drought</span></div>
-        <div><span style="background-color: #d7301f; width: 20px; height: 20px; display: inline-block;"></span><span>Extreme Drought</span></div>
+        <div><span class="color-box" style="background-color: #31a354;"></span><span>No Drought (0)</span></div>
+        <div><span class="color-box" style="background-color: #66c2a4;"></span><span>Abnormally Dry (1)</span></div>
+        <div><span class="color-box" style="background-color: #99d8c9;"></span><span>Moderate Drought (2)</span></div>
+        <div><span class="color-box" style="background-color: #fc8d59;"></span><span>Severe Drought (3)</span></div>
+        <div><span class="color-box" style="background-color: #d7301f;"></span><span>Extreme Drought (4)</span></div>
     </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiY2FsbGFoYWkiLCJhIjoiY204Z2Y2b3dwMDFxejJrb2NncTRqNWo4eSJ9.SWOSp9Q1_IHaFeoOtafDhQ';
@@ -45,67 +56,61 @@
             center: [-96, 37.8],
             zoom: 4
         });
+
         map.on('load', function() {
             fetch('https://raw.githubusercontent.com/aidcallahan/lab3/main/usdm_current.json')
-                .then(response => {
-                    if (!response.ok) {
-                        console.error("Failed to fetch GeoJSON data. Status: " + response.status);
-                        return Promise.reject("GeoJSON fetch failed");
-                    } else {
-                        return response.json();
-                    }
-                })
+                .then(response => response.json())
                 .then(data => {
-                    if (data) {
-                        const filteredData = {
-                            type: "FeatureCollection",
-                            features: data.features.filter(feature => feature.properties.DM !== undefined && feature.properties.DM !== null)
-                        };
+                    const filteredData = {
+                        type: "FeatureCollection",
+                        features: data.features.filter(feature => feature.properties.DM !== undefined && feature.properties.DM !== null)
+                    };
 
-                        map.addSource('drought-data', {
-                            type: 'geojson',
-                            data: filteredData
-                        });
+                    map.addSource('drought-data', {
+                        type: 'geojson',
+                        data: filteredData
+                    });
 
-                        map.addLayer({
-                            id: 'drought-layer',
-                            type: 'fill',
-                            source: 'drought-data',
-                            paint: {
-                                'fill-color': [
-                                    'match',
-                                    ['get', 'DM'],
-                                    0, '#31a354',
-                                    1, '#66c2a4',
-                                    2, '#99d8c9',
-                                    3, '#fc8d59',
-                                    4, '#d7301f',
-                                    '#ffffff'
-                                ],
-                                'fill-opacity': 0.7
-                            }
-                        }, 'sky');
-                        map.on('mouseenter', 'drought-layer', function() {
-                            map.getCanvas().style.cursor = 'pointer';
-                        });
+                    map.addLayer({
+                        id: 'drought-layer',
+                        type: 'fill',
+                        source: 'drought-data',
+                        paint: {
+                            'fill-color': [
+                                'match',
+                                ['get', 'DM'],
+                                0, '#31a354',
+                                1, '#66c2a4',
+                                2, '#99d8c9',
+                                3, '#fc8d59',
+                                4, '#d7301f',
+                                '#ffffff'
+                            ],
+                            'fill-opacity': 0.7
+                        }
+                    }, 'sky');
 
-                        map.on('mouseleave', 'drought-layer', function() {
-                            map.getCanvas().style.cursor = '';
-                        });
-                        map.on('click', 'drought-layer', function(e) {
-                            var properties = e.features[0].properties;
-                            var popupContent = `
-                                <strong>${properties.name || 'Unknown Area'}</strong><br>
-                                Drought Severity: ${getDroughtLevel(properties.DM)}
-                            `;
-                            new mapboxgl.Popup()
-                                .setLngLat(e.lngLat)
-                                .setHTML(popupContent)
-                                .addTo(map);
-                        });
-                    } else {
-                        console.error("No data available to load.");
-                    }
+                    map.moveLayer('drought-layer');
+
+                    map.on('mouseenter', 'drought-layer', function() {
+                        map.getCanvas().style.cursor = 'pointer';
+                    });
+
+                    map.on('mouseleave', 'drought-layer', function() {
+                        map.getCanvas().style.cursor = '';
+                    });
+
+                    map.on('click', 'drought-layer', function(e) {
+                        var properties = e.features[0].properties;
+                        var popupContent = `
+                            <strong>${properties.name || 'Unknown Area'}</strong><br>
+                            Drought Severity: ${getDroughtLevel(properties.DM)}
+                        `;
+                        new mapboxgl.Popup()
+                            .setLngLat(e.lngLat)
+                            .setHTML(popupContent)
+                            .addTo(map);
+                    });
                 })
                 .catch(error => {
                     console.error("Error loading GeoJSON data:", error);
