@@ -42,11 +42,11 @@
     <h1>US Current Drought Map</h1>
     <div id="map"></div>
     <div class="legend">
-        <div><span class="color-box" style="background-color: #31a354;"></span><span>No Drought (0)</span></div>
-        <div><span class="color-box" style="background-color: #66c2a4;"></span><span>Abnormally Dry (1)</span></div>
-        <div><span class="color-box" style="background-color: #99d8c9;"></span><span>Moderate Drought (2)</span></div>
-        <div><span class="color-box" style="background-color: #fc8d59;"></span><span>Severe Drought (3)</span></div>
-        <div><span class="color-box" style="background-color: #d7301f;"></span><span>Extreme Drought (4)</span></div>
+        <div><span class="color-box" style="background-color: #008000;"></span><span>No Drought (0)</span></div>
+        <div><span class="color-box" style="background-color: #00ff00;"></span><span>Abnormally Dry (1)</span></div>
+        <div><span class="color-box" style="background-color: #00cc00;"></span><span>Moderate Drought (2)</span></div>
+        <div><span class="color-box" style="background-color: #ff6600;"></span><span>Severe Drought (3)</span></div>
+        <div><span class="color-box" style="background-color: #ff0000;"></span><span>Extreme Drought (4)</span></div>
     </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiY2FsbGFoYWkiLCJhIjoiY204Z2Y2b3dwMDFxejJrb2NncTRqNWo4eSJ9.SWOSp9Q1_IHaFeoOtafDhQ';
@@ -79,11 +79,11 @@
                             'fill-color': [
                                 'match',
                                 ['get', 'DM'],
-                                0, '#31a354',
-                                1, '#66c2a4',
-                                2, '#99d8c9',
-                                3, '#fc8d59',
-                                4, '#d7301f',
+                                0, '#008000',
+                                1, '#00ff00',
+                                2, '#00cc00',
+                                3, '#ff6600',
+                                4, '#ff0000',
                                 '#ffffff'
                             ],
                             'fill-opacity': 0.7
