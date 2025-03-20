@@ -7,12 +7,36 @@
     <link rel="stylesheet" href="https://unpkg.com/mapbox-gl/dist/mapbox-gl.css" />
     <style>
         #map { height: 600px; }
+        .legend {
+            position: absolute;
+            bottom: 30px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        .legend div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .legend div span {
+            margin-left: 10px;
+        }
     </style>
     <script src="https://unpkg.com/mapbox-gl/dist/mapbox-gl.js"></script>
 </head>
 <body>
     <h1>US Current Drought Map</h1>
     <div id="map"></div>
+    <div class="legend">
+        <div><span style="background-color: #31a354; width: 20px; height: 20px; display: inline-block;"></span><span>No Drought</span></div>
+        <div><span style="background-color: #66c2a4; width: 20px; height: 20px; display: inline-block;"></span><span>Abnormally Dry</span></div>
+        <div><span style="background-color: #99d8c9; width: 20px; height: 20px; display: inline-block;"></span><span>Moderate Drought</span></div>
+        <div><span style="background-color: #fc8d59; width: 20px; height: 20px; display: inline-block;"></span><span>Severe Drought</span></div>
+        <div><span style="background-color: #d7301f; width: 20px; height: 20px; display: inline-block;"></span><span>Extreme Drought</span></div>
+    </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiY2FsbGFoYWkiLCJhIjoiY204Z2Y2b3dwMDFxejJrb2NncTRqNWo4eSJ9.SWOSp9Q1_IHaFeoOtafDhQ';
         var map = new mapboxgl.Map({
@@ -21,7 +45,6 @@
             center: [-96, 37.8],
             zoom: 4
         });
-
         map.on('load', function() {
             fetch('https://raw.githubusercontent.com/aidcallahan/lab3/main/usdm_current.json')
                 .then(response => {
@@ -34,9 +57,14 @@
                 })
                 .then(data => {
                     if (data) {
+                        const filteredData = {
+                            type: "FeatureCollection",
+                            features: data.features.filter(feature => feature.properties.DM !== undefined && feature.properties.DM !== null)
+                        };
+
                         map.addSource('drought-data', {
                             type: 'geojson',
-                            data: data
+                            data: filteredData
                         });
 
                         map.addLayer({
@@ -48,16 +76,15 @@
                                     'match',
                                     ['get', 'DM'],
                                     0, '#31a354',
-                                    1, '#78c679',
-                                    2, '#addd8e',
-                                    3, '#fdae61',
-                                    4, '#f16913',
-                                    '#d7301f'
+                                    1, '#66c2a4',
+                                    2, '#99d8c9',
+                                    3, '#fc8d59',
+                                    4, '#d7301f',
+                                    '#ffffff'
                                 ],
                                 'fill-opacity': 0.7
                             }
                         }, 'sky');
-
                         map.on('mouseenter', 'drought-layer', function() {
                             map.getCanvas().style.cursor = 'pointer';
                         });
@@ -65,12 +92,10 @@
                         map.on('mouseleave', 'drought-layer', function() {
                             map.getCanvas().style.cursor = '';
                         });
-
                         map.on('click', 'drought-layer', function(e) {
                             var properties = e.features[0].properties;
                             var popupContent = `
                                 <strong>${properties.name || 'Unknown Area'}</strong><br>
-                                Drought Intensity (DM): ${properties.DM || 'Unknown'}<br>
                                 Drought Severity: ${getDroughtLevel(properties.DM)}
                             `;
                             new mapboxgl.Popup()
@@ -94,7 +119,6 @@
                 case 2: return "Moderate Drought";
                 case 3: return "Severe Drought";
                 case 4: return "Extreme Drought";
-                case 5: return "Exceptional Drought";
                 default: return "Unknown";
             }
         }
